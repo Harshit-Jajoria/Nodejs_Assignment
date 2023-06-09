@@ -7,6 +7,11 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BACKEND_URL } from '../constants';
+import { useContext, useState } from 'react';
+import UserContext from '../context/UserContext';
+import {auth,provider} from '../firebase/config'
+import { signInWithPopup } from 'firebase/auth';
 
 const loginSchema = yup.object().shape({
   phoneNumber: yup
@@ -22,6 +27,7 @@ const initialValuesLogin = {
   password: '',
 };
 const Signin = () => {
+
   const styles = {
     back: {
       height: '100vh',
@@ -72,6 +78,20 @@ const Signin = () => {
     },
   };
 
+  const {setUser,setToken}= useContext(UserContext)
+
+  const handleGoogleSign=()=>{
+    signInWithPopup(auth,provider).then((data)=>{
+      console.log(data);
+      console.log(data.user.displayName);
+      // setUser({
+      //   name:data.
+      // });
+
+    })
+  }
+
+
   const navigate = useNavigate();
   const {
     values,
@@ -86,23 +106,20 @@ const Signin = () => {
     initialValues: initialValuesLogin,
     validationSchema: loginSchema,
     onSubmit: async (values, onSubmitProps) => {
-      // const loggedInResponse = await fetch('http://localhost:5000/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(values),
-      // });
-      const url = process.env.REACT_APP_BACKEND_URL;
-      console.log(`${url}/auth/login`);
-
       try {
-        const loggedInResponse = await axios.post(`${url}/auth/login`, values, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const loggedIn = await loggedInResponse.data;
-        console.log(loggedIn);
-
+        const loggedInResponse = await axios.post(
+          `${BACKEND_URL}/login-user`,
+          values,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        const res = await loggedInResponse.data;
+        setUser(res.user);
+         setToken(res.token);
+        console.log(res);
         onSubmitProps.resetForm();
         // console.log(loggedIn);
         toast.success('Logged in successfully', {
@@ -112,11 +129,11 @@ const Signin = () => {
         setTimeout(() => {
           navigate('/home');
         }, 2000);
-      } catch (error) {
-        toast.error(error.response.data.msg, {
+      } catch (e) {
+        toast.error(e.response.data.msg, {
           position: 'top-center',
         });
-        console.log(error);
+        console.log(e);
       }
     },
   });
@@ -136,17 +153,17 @@ const Signin = () => {
         <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
           <div style={styles.nameContainer}></div>
           <TextField
-            label="Email"
+            label="phoneNumber"
             onBlur={handleBlur}
             onChange={handleChange}
-            value={values.email}
-            name="email"
-            error={Boolean(touched.email) && Boolean(errors.email)}
-            helperText={touched.email && errors.email}
+            value={values.phoneNumber}
+            name="phoneNumber"
+            error={Boolean(touched.phoneNumber) && Boolean(errors.phoneNumber)}
+            helperText={touched.phoneNumber && errors.phoneNumber}
             variant="outlined"
             style={styles.textField}
-            autoComplete="new-email"
-            placeholder="Enter Email Address"
+            autoComplete="new-number"
+            placeholder="Enter Phone Number"
             InputLabelProps={{ shrink: true }}
           />
 
@@ -170,6 +187,9 @@ const Signin = () => {
             Sign In
           </Button>
         </form>
+        <Button variant="contained" onClick={handleGoogleSign} style={styles.submitButton}>
+            Sign In With Google
+          </Button>
         <Typography
           variant="h6"
           sx={{

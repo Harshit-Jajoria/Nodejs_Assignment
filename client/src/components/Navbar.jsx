@@ -3,6 +3,7 @@ import {
   AppBar,
   Badge,
   Box,
+  Button,
   InputBase,
   Menu,
   MenuItem,
@@ -11,8 +12,9 @@ import {
   Typography,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 const StyledToolbar = styled(Toolbar)({
   display: 'flex',
@@ -48,9 +50,8 @@ const UserBox = styled(Box)(({ theme }) => ({
   // },
 }));
 const Navbar = () => {
-  const user={
-    name:'Test User',
-  }
+  const {user}= useContext(UserContext)
+
   const [isopen, issetOpen] = useState(false);
   const navigate = useNavigate();
   //   const url=process.env.REACT_APP_BACKEND_URL;
@@ -60,7 +61,7 @@ const Navbar = () => {
     <AppBar position="sticky" sx={{ flexGrow: 1, overflowX: 'hidden' }}>
       <StyledToolbar>
         <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>
-          Social Connect
+          E- Commerce
         </Typography>
         <Face6 sx={{ display: { xs: 'block', sm: 'none' } }} />
         <Search bgcolor={'background.default'} color={'text.primary'}>
@@ -74,12 +75,8 @@ const Navbar = () => {
           <SearchIcon sx={{ color: 'black' }} />
         </Search>
         <Icons sx={{ display: { xs: 'none', sm: 'flex' } }}>
-          <Badge badgeContent={123} color="error">
-            <Mail />
-          </Badge>
-          <Badge badgeContent={2} color="error">
-            <Notifications />
-          </Badge>
+        <Typography variant="h5"> {user.name} </Typography>
+          <Button variant="contained">LogOut</Button>
         </Icons>
         <UserBox
           onClick={(e) => issetOpen(true)}

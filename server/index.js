@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import User from './models/User.js';
 import userRoutes from './routes/user.js'
@@ -25,7 +24,6 @@ export const users = [
 // Configuration
 const app = express();
 app.use(express.json());
-dotenv.config();
 app.use(cors({ origin: '*' }));
 
 
@@ -41,11 +39,11 @@ app.use('/',userRoutes)
 mongoose.set('strictQuery', false);
 const port = PORT || 6000;
 app.listen(port, () => {
-  console.log(`Server is running on port number ${PORT} `);
+  console.log(`Server is running on port number ${port} `);
 });
 
 app.get('/', function (req, res) {
-  res.send(`Backend is running on port number ${PORT}`);
+  res.send(`Backend is running on port number ${port}`);
 });
 
 mongoose

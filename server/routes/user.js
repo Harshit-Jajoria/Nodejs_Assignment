@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers,register } from '../controllers/user.js';
+import { getUsers,login,register } from '../controllers/user.js';
 
 // import { verifyToken } from "../middleware/auth.js";
 
@@ -9,6 +9,7 @@ const router = express.Router();
 router.get('/users', getUsers);
 
 router.post('/add-user',register)
+router.post('/login-user',login)
 // router.get("/:id", verifyToken, getUser);
 // router.get("/:id/friends", verifyToken, getUserFriends);
 
