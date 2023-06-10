@@ -4,13 +4,12 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import { UserProvider } from './context/UserContext';
-
+import Cart from './screens/Cart';
 
 const App = () => {
-  const isAuth =true;
+  const isAuth = true;
   return (
-    <div className="app">
-      <UserProvider>
+    <UserProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />
@@ -19,11 +18,10 @@ const App = () => {
             path="/home"
             element={isAuth ? <Home /> : <Navigate to="/" />}
           />
-          
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </BrowserRouter>
-      </UserProvider>
-    </div>
+    </UserProvider>
   );
 };
 

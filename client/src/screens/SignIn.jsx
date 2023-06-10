@@ -84,9 +84,14 @@ const Signin = () => {
     signInWithPopup(auth,provider).then((data)=>{
       console.log(data);
       console.log(data.user.displayName);
-      // setUser({
-      //   name:data.
-      // });
+      setUser({
+        name:data.user.displayName,
+        email:data.user.email
+
+      });
+      setToken(data.user.accessToken); 
+      navigate('/home');
+
 
     })
   }

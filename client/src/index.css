@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.product-card {
+  flex-basis: calc(33.33% - 20px); /* Set flex-basis to occupy 33.33% width with some margin */
+  margin: 10px; /* Add margin between cards */
+}
+
+@media (max-width: 960px) {
+  .product-card {
+    flex-basis: calc(50% - 20px); /* Reduce flex-basis to occupy 50% width on smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .product-card {
+    flex-basis: 100%; /* Set flex-basis to occupy 100% width on even smaller screens */
+  }
+}

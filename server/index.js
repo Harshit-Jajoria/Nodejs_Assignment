@@ -3,8 +3,11 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import User from './models/User.js';
 import userRoutes from './routes/user.js'
+import productRoutes from './routes/product.js'
 import jwt from 'jsonwebtoken';
 import { MONGO_URI, PORT } from './constants.js';
+import { data } from './data.js';
+import Product from './models/Product.js';
 
 
 export const users = [
@@ -29,7 +32,7 @@ app.use(cors({ origin: '*' }));
 
 //Routes
 app.use('/',userRoutes)
-// app.use('/add-user', addUser);
+app.use('/product',productRoutes)
 
 
 
@@ -56,6 +59,7 @@ mongoose
     console.log(`conneted to db`);
     // /* ADD DATA ONE TIME */
     // User.insertMany(users);
+    // Product.insertMany(data)
     
   })
   .catch((error) => console.log(`${error} -->  did not connect`));
