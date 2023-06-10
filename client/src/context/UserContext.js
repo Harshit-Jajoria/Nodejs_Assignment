@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [token, setToken] = useState('');
   const [products, setProducts] = useState();
-  const [selectedProducts, setSelectedProducts] = useState(['FirstContext']);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   const getProducts = async () => {
     const res = await axios.get(`${BACKEND_URL}/product/all`);
