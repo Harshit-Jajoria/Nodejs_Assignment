@@ -1,52 +1,89 @@
-import React, { useContext } from 'react';
-import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+} from '@mui/material';
 import UserContext from '../context/UserContext';
+import Navbar from '../components/Navbar';
 
 const Cart = () => {
-  const { products,selectedProducts } = useContext(UserContext);
+  const { products, selectedProducts, setSelectedProducts } =
+    useContext(UserContext);
+  const [productDetails, setProductDetails] = useState([]);
+  const [totalPrice, setTotalPrice] = useState();
 
-  const handleIncreaseCount = (productId) => {
-    // TODO: Implement logic to increase the count of the selected product
+  useEffect(() => {
+    // Update the product details when selectedProducts change
+    const updatedProductDetails = selectedProducts.map((productId) => {
+      return products.find((product) => product._id === productId);
+    });
+    setProductDetails(updatedProductDetails);
+
+    // To Calculate Total Price
+    if (productDetails) {
+      const p = productDetails.reduce((acc, curr) => acc + curr.price,0);
+      setTotalPrice(p);
+    }
+  }, [selectedProducts, products,productDetails]);
+
+  const handleRemoveItem = (productId) => {
+    const updatedSelectedProducts = selectedProducts.filter(
+      (id) => id !== productId
+    );
+    setSelectedProducts(updatedSelectedProducts);
   };
 
-  const handleDecreaseCount = (productId) => {
-    // TODO: Implement logic to decrease the count of the selected product
-  };
-  console.log(selectedProducts);
-  console.log(products);
-
+  console.log(productDetails, selectedProducts);
   return (
     <>
-      <Typography variant="h6" component="div" gutterBottom>
-        Cart
-      </Typography>
-      {selectedProducts.map((product,i) => (
+    <Navbar/>
+      
+      {productDetails.map((product, i) => (
         <Card key={i} style={{ display: 'flex', marginBottom: '10px' }}>
           <CardMedia
             component="img"
-            style={{ width: 100, height: 100, objectFit: 'cover' }}
+            style={{ width: 200, height: 200, objectFit: 'cover' }}
             image={product.image}
             alt={product.name}
           />
           <CardContent style={{ flex: 1 }}>
-            <Typography variant="subtitle1" component="div">
+            <Typography variant="h3" component="div">
               {product.name}
             </Typography>
-            {/* TODO: Display other details of the product */}
-          </CardContent>
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Button variant="outlined" onClick={() => handleIncreaseCount(product._id)}>
-              +
-            </Button>
-            <Typography variant="body2" component="div" align="center">
-              {/* TODO: Display product count */}
+            <Typography variant="h5" component="div">
+              {product.description}
             </Typography>
-            <Button variant="outlined" onClick={() => handleDecreaseCount(product._id)}>
-              -
+            <Typography variant="h5" component="div" sx={{ marginTop: 1 }}>
+              Price: Rs{product.price}
+            </Typography>
+          </CardContent>
+          <div
+            style={{
+              display: 'flex',
+              width: 200,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              marginRight: '100px',
+            }}
+          >
+            <Button
+              variant="outlined"
+              onClick={() => handleRemoveItem(product._id)}
+            >
+              Remove Item
             </Button>
           </div>
         </Card>
       ))}
+      <Typography variant="h3" component="div" sx={{ marginTop: 3 }}>
+        Total Price: Rs{totalPrice}
+      </Typography>
+      <Button variant="outlined" sx={{ marginTop: 2 }}>
+        Place Order
+      </Button>
     </>
   );
 };

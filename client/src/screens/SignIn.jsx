@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BACKEND_URL } from '../constants';
 import { useContext, useState } from 'react';
 import UserContext from '../context/UserContext';
-import {auth,provider} from '../firebase/config'
+import { auth, provider } from '../firebase/config';
 import { signInWithPopup } from 'firebase/auth';
 
 const loginSchema = yup.object().shape({
@@ -27,7 +27,6 @@ const initialValuesLogin = {
   password: '',
 };
 const Signin = () => {
-
   const styles = {
     back: {
       height: '100vh',
@@ -78,24 +77,20 @@ const Signin = () => {
     },
   };
 
-  const {setUser,setToken}= useContext(UserContext)
+  const { setUser, setToken } = useContext(UserContext);
 
-  const handleGoogleSign=()=>{
-    signInWithPopup(auth,provider).then((data)=>{
+  const handleGoogleSign = () => {
+    signInWithPopup(auth, provider).then((data) => {
       console.log(data);
       console.log(data.user.displayName);
       setUser({
-        name:data.user.displayName,
-        email:data.user.email
-
+        name: data.user.displayName,
+        email: data.user.email,
       });
-      setToken(data.user.accessToken); 
+      setToken(data.user.accessToken);
       navigate('/home');
-
-
-    })
-  }
-
+    });
+  };
 
   const navigate = useNavigate();
   const {
@@ -123,7 +118,7 @@ const Signin = () => {
         );
         const res = await loggedInResponse.data;
         setUser(res.user);
-         setToken(res.token);
+        setToken(res.token);
         console.log(res);
         onSubmitProps.resetForm();
         // console.log(loggedIn);
@@ -192,9 +187,13 @@ const Signin = () => {
             Sign In
           </Button>
         </form>
-        <Button variant="contained" onClick={handleGoogleSign} style={styles.submitButton}>
-            Sign In With Google
-          </Button>
+        <Button
+          variant="contained"
+          onClick={handleGoogleSign}
+          style={styles.submitButton}
+        >
+          Sign In With Google
+        </Button>
         <Typography
           variant="h6"
           sx={{

@@ -56,7 +56,7 @@ const Card = ({ product }) => {
     
     setIsClicked(true)
   };
-  console.log(selectedProducts);
+  // console.log(selectedProducts);
 
  
   
@@ -72,7 +72,7 @@ const Card = ({ product }) => {
           {description}
         </Typography>
         <Typography variant="h6" component="div" className={classes.price}>
-          Price: {price}$
+          Price: Rs {price}
         </Typography>
         <Typography variant="body1" component="div" className={classes.stock}>
           In Stock: {countInStock}

@@ -11,26 +11,18 @@ export const UserProvider = ({ children }) => {
   const [products, setProducts] = useState();
   const [selectedProducts, setSelectedProducts] = useState([]);
 
-  const getProducts = async () => {
-    const res = await axios.get(`${BACKEND_URL}/product/all`);
-    setProducts(res.data);
-  };
-
   return (
     <UserContext.Provider
       value={{
         // States
-
         user,
         setUser,
         token,
         setToken,
         products,
+        setProducts,
         selectedProducts,
         setSelectedProducts,
-
-        //Functions
-        getProducts,
       }}
     >
       {children}

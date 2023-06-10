@@ -19,7 +19,7 @@ import UserContext from '../context/UserContext';
 const StyledToolbar = styled(Toolbar)({
   display: 'flex',
   justifyContent: 'space-between',
-  margin:0
+  margin: 0,
 });
 
 const Search = styled('div')(({ theme }) => ({
@@ -50,7 +50,7 @@ const UserBox = styled(Box)(({ theme }) => ({
   // },
 }));
 const Navbar = () => {
-  const {user}= useContext(UserContext)
+  const { user } = useContext(UserContext);
 
   const [isopen, issetOpen] = useState(false);
   const navigate = useNavigate();
@@ -75,8 +75,12 @@ const Navbar = () => {
           <SearchIcon sx={{ color: 'black' }} />
         </Search>
         <Icons sx={{ display: { xs: 'none', sm: 'flex' } }}>
-        <Typography variant="h5"> {user.name} </Typography>
-          <Button variant="contained">LogOut</Button>
+          <Typography variant="h5"> {user.name} </Typography>
+          <Button variant="contained" onClick={() => navigate('/cart')}>
+            My Cart{' '}
+          </Button>
+
+          <Button variant="contained" onClick={()=>navigate('/')}>LogOut</Button>
         </Icons>
         <UserBox
           onClick={(e) => issetOpen(true)}
