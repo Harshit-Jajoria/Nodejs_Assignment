@@ -5,6 +5,7 @@ import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import { UserProvider } from './context/UserContext';
 import Cart from './screens/Cart';
+import Orders from './screens/Orders';
 
 const App = () => {
   const isAuth = true;
@@ -19,6 +20,8 @@ const App = () => {
             element={isAuth ? <Home /> : <Navigate to="/" />}
           />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
+
         </Routes>
       </BrowserRouter>
     </UserProvider>

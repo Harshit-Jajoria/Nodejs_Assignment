@@ -1,9 +1,16 @@
 import mongoose from 'mongoose';
 const ordersSchema = new mongoose.Schema(
   {
-    productName: { type: String, required: true },
-    productId: { type: String, required: true },
-    category: { type: String, required: true },
+    userId: { type: String, required: true },
+    userName: { type: String, required: true },
+    userPhoneNumber:{ type: Number, required: true },
+    productDetail: [
+      {
+        productId: String,
+        productName: String,
+        productCategory: String,
+      },
+    ],
     totalPrice: { type: Number, required: true },
   },
   {

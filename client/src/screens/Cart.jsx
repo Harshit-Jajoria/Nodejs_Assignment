@@ -8,12 +8,17 @@ import {
 } from '@mui/material';
 import UserContext from '../context/UserContext';
 import Navbar from '../components/Navbar';
+import { BACKEND_URL } from '../constants';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { products, selectedProducts, setSelectedProducts } =
+  const { user, token, products, selectedProducts, setSelectedProducts } =
     useContext(UserContext);
   const [productDetails, setProductDetails] = useState([]);
   const [totalPrice, setTotalPrice] = useState();
+  const navigate=useNavigate()
 
   useEffect(() => {
     // Update the product details when selectedProducts change
@@ -24,10 +29,18 @@ const Cart = () => {
 
     // To Calculate Total Price
     if (productDetails) {
-      const p = productDetails.reduce((acc, curr) => acc + curr.price,0);
+      const p = productDetails.reduce((acc, curr) => acc + curr.price, 0);
       setTotalPrice(p);
     }
-  }, [selectedProducts, products,productDetails]);
+  }, [selectedProducts, products]);
+  useEffect(() => {
+    // Calculate Total Price using productDetails
+    const totalPrice = productDetails.reduce(
+      (acc, curr) => acc + curr.price,
+      0
+    );
+    setTotalPrice(totalPrice);
+  }, [productDetails]);
 
   const handleRemoveItem = (productId) => {
     const updatedSelectedProducts = selectedProducts.filter(
@@ -36,11 +49,40 @@ const Cart = () => {
     setSelectedProducts(updatedSelectedProducts);
   };
 
-  console.log(productDetails, selectedProducts);
+  const placeOrder = async () => {
+    try {
+      const new_obj = {
+        userName: user.name,
+        userId: user._id,
+        userPhoneNumber: user.phoneNumber,
+        productDetail: productDetails.map((e) => ({
+          productId: e._id,
+          productName: e.name,
+          productCategory: e.category,
+        })),
+
+        totalPrice: totalPrice,
+      };
+      const res = await axios.post(`${BACKEND_URL}/add-order`, new_obj, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = res.data;
+      toast.success('Order Placed successfully', {
+        position: 'top-center',
+        pauseOnHover: true,
+      });
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-    <Navbar/>
-      
+      <Navbar />
+
       {productDetails.map((product, i) => (
         <Card key={i} style={{ display: 'flex', marginBottom: '10px' }}>
           <CardMedia
@@ -81,9 +123,11 @@ const Cart = () => {
       <Typography variant="h3" component="div" sx={{ marginTop: 3 }}>
         Total Price: Rs{totalPrice}
       </Typography>
-      <Button variant="outlined" sx={{ marginTop: 2 }}>
+      <Button variant="outlined" sx={{ marginTop: 2 }} onClick={placeOrder}>
         Place Order
       </Button>
+      <ToastContainer />
+
     </>
   );
 };

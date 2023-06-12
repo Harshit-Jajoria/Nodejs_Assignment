@@ -4,8 +4,7 @@ import { JWT_SECRET } from "../constants.js";
 export const verifyToken = async (req, res, next) => {
   try {
     let token = req.header("Authorization");
-    console.log('token->', token);
-    console.log('end');
+    
 
     if (!token) {
       return res.status(403).send("Access Denied");

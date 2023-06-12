@@ -12,9 +12,11 @@ import {
   Typography,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
+import { BACKEND_URL } from '../constants';
+import axios from 'axios';
 
 const StyledToolbar = styled(Toolbar)({
   display: 'flex',
@@ -50,12 +52,24 @@ const UserBox = styled(Box)(({ theme }) => ({
   // },
 }));
 const Navbar = () => {
-  const { user } = useContext(UserContext);
-
+  const { user, token } = useContext(UserContext);
   const [isopen, issetOpen] = useState(false);
   const navigate = useNavigate();
-  //   const url=process.env.REACT_APP_BACKEND_URL;
-  // console.log(`${url}/assets/${user.picturePath}`);
+
+  
+  const handleOrderClick = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/get-order/${user._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      const d=await res.data
+      
+      navigate('/orders', { state: d[0] });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <AppBar position="sticky" sx={{ flexGrow: 1, overflowX: 'hidden' }}>
@@ -76,11 +90,16 @@ const Navbar = () => {
         </Search>
         <Icons sx={{ display: { xs: 'none', sm: 'flex' } }}>
           <Typography variant="h5"> {user.name} </Typography>
+          <Button variant="contained" onClick={handleOrderClick}>
+            My Orders
+          </Button>
           <Button variant="contained" onClick={() => navigate('/cart')}>
-            My Cart{' '}
+            My Cart
           </Button>
 
-          <Button variant="contained" onClick={()=>navigate('/')}>LogOut</Button>
+          <Button variant="contained" onClick={() => navigate('/')}>
+            LogOut
+          </Button>
         </Icons>
         <UserBox
           onClick={(e) => issetOpen(true)}

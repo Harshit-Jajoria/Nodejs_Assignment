@@ -1,42 +1,22 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import User from './models/User.js';
-import userRoutes from './routes/user.js'
-import productRoutes from './routes/product.js'
+import userRoutes from './routes/user.js';
+import productRoutes from './routes/product.js';
+import orderRoutes from './routes/orders.js';
 import jwt from 'jsonwebtoken';
 import { MONGO_URI, PORT } from './constants.js';
-import { data } from './data.js';
-import Product from './models/Product.js';
 
-
-export const users = [
-  {
-    name: 'Ramesh',
-    phoneNumber:'9191919191',    
-    password: '123456789',
-  },
-  {
-    name: 'Harshit',
-    phoneNumber:'9911911050',    
-    password: 'abcdefghij',
-
-  }
-]
 
 // Configuration
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: '*' }));
 
-
 //Routes
-app.use('/',userRoutes)
-app.use('/product',productRoutes)
-
-
-
-
+app.use('/', userRoutes);
+app.use('/product', productRoutes);
+app.use('/', orderRoutes);
 
 // Mongoose setup
 mongoose.set('strictQuery', false);
@@ -60,10 +40,9 @@ mongoose
     // /* ADD DATA ONE TIME */
     // User.insertMany(users);
     // Product.insertMany(data)
-    
+    // Orders.insertMany(orderDetails)
   })
   .catch((error) => console.log(`${error} -->  did not connect`));
-
 
 //  const createToken= async()=>{
 //   const token=await jwt.sign({id:'648163ff40599ec344924bf8'},'hellointheworldofthejsonwebtoken')
