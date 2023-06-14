@@ -56,7 +56,8 @@ export const login = async (req, res) => {
 export const loginByGmail = async (req, res) => {
   try {
     console.log('loginByGmail is calleed');
-    const { gmailToken } = req.body;
+    const { name, email } = req.body;
+    
     const token = jwt.sign({gmailToken}, JWT_SECRET);
     console.log(token);
     res.status(200).json({ token });

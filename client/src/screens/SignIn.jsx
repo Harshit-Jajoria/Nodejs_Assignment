@@ -427,7 +427,7 @@ const Signin = () => {
         </form>
         <Button
           variant="contained"
-          // onClick={handleGoogleSign}
+          onClick={handleGoogleSign}
           style={styles.submitButton}
         >
           Sign In With Google

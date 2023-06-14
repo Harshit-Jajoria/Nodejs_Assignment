@@ -7,16 +7,18 @@ const UserSchema = new mongoose.Schema(
       min: 3,
       max: 50,
     },
-
     phoneNumber: {
       type: String,
-      required: true,
+      max: 50,
+      unique: true,
+    },
+    email: {
+      type: String,
       max: 50,
       unique: true,
     },
     password: {
       type: String,
-      required: true,
       min: 8,
     },
   },

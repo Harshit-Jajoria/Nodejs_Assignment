@@ -10,7 +10,12 @@ const Orders = () => {
   const data=location.state;
   console.log(data);
   
-
+if(!data){
+  return (
+    <h1 style={{textAlign:'center'}}>No Orders Till Now</h1>
+  )
+}
+else{
   return (
     <>
       <h1> My Orders</h1>
@@ -34,6 +39,7 @@ const Orders = () => {
             </Typography>
     </>
   );
+      }
 };
 
 export default Orders;
