@@ -1,11 +1,10 @@
 import OrdersModel from '../models/Orders.js';
 export const placeOrder = async (req, res) => {
   try {
-    const { userId, userName, userPhoneNumber, productDetail, totalPrice } = req.body;
+    const { userId, userName, productDetail, totalPrice } = req.body;
     const newUser = new OrdersModel({
       userId,
       userName,
-      userPhoneNumber,
       productDetail,
       totalPrice,
     });

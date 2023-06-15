@@ -56,7 +56,6 @@ const Card = ({ product }) => {
     
     setIsClicked(true)
   };
-  // console.log(selectedProducts);
 
  
   

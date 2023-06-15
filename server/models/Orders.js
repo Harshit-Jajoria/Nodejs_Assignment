@@ -3,7 +3,6 @@ const ordersSchema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
     userName: { type: String, required: true },
-    userPhoneNumber:{ type: Number, required: true },
     productDetail: [
       {
         productId: String,

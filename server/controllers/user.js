@@ -30,6 +30,7 @@ export const register = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error });
   }
 };
@@ -55,12 +56,21 @@ export const login = async (req, res) => {
 
 export const loginByGmail = async (req, res) => {
   try {
-    console.log('loginByGmail is calleed');
     const { name, email } = req.body;
-    
-    const token = jwt.sign({gmailToken}, JWT_SECRET);
-    console.log(token);
-    res.status(200).json({ token });
+    let user = await UserModel.findOne({ email: email });
+    if (!user) {
+      const newUser = new UserModel({
+        name,
+        email,
+      });
+      user  = await newUser.save();
+      const token = jwt.sign({ id: user._id }, JWT_SECRET);
+      res.status(200).json({ token, user });
+    } else {
+      console.log('user already existes');
+      const token = jwt.sign({ id: user._id }, JWT_SECRET);
+      res.status(200).json({ token, user });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });

@@ -6,6 +6,8 @@ import productRoutes from './routes/product.js';
 import orderRoutes from './routes/orders.js';
 import jwt from 'jsonwebtoken';
 import { MONGO_URI, PORT } from './constants.js';
+import User from './models/User.js';
+import Orders from './models/Orders.js';
 
 
 // Configuration
@@ -41,6 +43,8 @@ mongoose
     // User.insertMany(users);
     // Product.insertMany(data)
     // Orders.insertMany(orderDetails)
+    // console.log(User.schema);
+    
   })
   .catch((error) => console.log(`${error} -->  did not connect`));
 

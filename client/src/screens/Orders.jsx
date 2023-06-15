@@ -8,7 +8,6 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 const Orders = () => {
   const location = useLocation();
   const data=location.state;
-  console.log(data);
   
 if(!data){
   return (

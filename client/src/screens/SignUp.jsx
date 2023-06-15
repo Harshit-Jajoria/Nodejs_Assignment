@@ -90,7 +90,6 @@ const Signup = () => {
     initialValues: initialValuesRegister,
     validationSchema: registerSchema,
     onSubmit: async (values, onSubmitProps) => {
-      // console.log(values);
 
       let formData = new FormData();
 
@@ -98,9 +97,9 @@ const Signup = () => {
         if (value !== 'confirmPassword') formData.append(value, values[value]);
       }
 
-      for (const pair of formData.entries()) {
-        console.log(`${pair[0]}, ${pair[1]}`);
-      }
+      // for (const pair of formData.entries()) {
+      //   console.log(`${pair[0]}, ${pair[1]}`);
+      // }
 
       try {
         // const url = process.env.REACT_APP_BACKEND_URL;
@@ -110,7 +109,6 @@ const Signup = () => {
             'Content-Type': 'application/json',
           },
         });
-        console.log(savedUser.data);
         onSubmitProps.resetForm();
 
         toast.success('Account Created Successfully', {

@@ -7,9 +7,7 @@ import axios from 'axios';
 import { BACKEND_URL } from '../constants';
 const Home = () => {
   const { products, setProducts,token } = useContext(UserContext);
-  console.log(token);
   const getProducts = async () => {
-    console.log(token);
     try {
       const res = await axios.get(`${BACKEND_URL}/product/all`,{
         headers: { Authorization: `Bearer ${token}` },
@@ -25,7 +23,6 @@ const Home = () => {
   useEffect(() => {
     getProducts();
   }, []);
-  console.log(products);
 
   if (products) {
     return (
